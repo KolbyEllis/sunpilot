@@ -1,0 +1,37 @@
+@use "tokens" as *;
+
+:root {
+  --ink: #{$ink};
+  --muted: #{$muted};
+  --line: #{$line};
+  --bg: #{$bg};
+  --card: #{$card};
+  --top: #{$top};
+  --nav: #{$nav};
+  --blue: #{$blue};
+  --blue-dark: #{$blue-dark};
+  --sun: #{$sun};
+  --green: #{$green};
+  --green-bg: #{$green-bg};
+  --red: #{$red};
+  --red-bg: #{$red-bg};
+  --amber: #{$amber};
+  --amber-bg: #{$amber-bg};
+  --shadow: #{$shadow};
+  font-family: $font;
+  color: $ink;
+  background: $bg;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; min-height: 100vh; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+:focus-visible { outline: 2px solid $blue; outline-offset: 2px; }
+
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: 1.45rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.05rem; }

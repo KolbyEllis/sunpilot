@@ -2,9 +2,13 @@
   "name": "sunpilot",
   "version": "1.0.0",
   "private": true,
-  "description": "sunpilot",
-  "main": "index.js",
+  "description": "SunPilot property management for Sunseeker Rentals",
   "scripts": {
-    "start": "node index.js"
+    "styles": "sass styles/main.scss public/styles.css --style=expanded --no-source-map",
+    "styles:watch": "sass --watch styles/main.scss public/styles.css --style=expanded --no-source-map",
+    "start": "npm run styles && node server.js"
+  },
+  "devDependencies": {
+    "sass": "^1.80.0"
   }
 }

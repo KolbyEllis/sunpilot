@@ -1,0 +1,153 @@
+@use "tokens" as *;
+
+.app { min-height: 100vh; }
+
+.topbar,
+.portal-top {
+  height: 52px;
+  background: $top;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+
+  .logo span { color: white; font-size: 1.25rem; }
+
+  .btn-ghost {
+    background: transparent;
+    color: white;
+    border-color: #4b5563;
+  }
+}
+
+.search {
+  position: relative;
+  flex: 1;
+  max-width: 460px;
+
+  input {
+    width: 100%;
+    background: #2a3038;
+    border: 0;
+    color: white;
+    border-radius: 6px;
+    padding: 8px 12px;
+  }
+}
+
+.search-results {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  background: white;
+  color: $ink;
+  border-radius: 8px;
+  box-shadow: $shadow;
+  overflow: hidden;
+
+  button {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+    background: white;
+    border: 0;
+    padding: 10px 12px;
+    text-align: left;
+
+    &:hover { background: $soft; }
+  }
+
+  small { color: $muted; }
+}
+
+.who { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $sun;
+  color: $ink;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+
+.frame {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  min-height: calc(100vh - 52px);
+}
+
+.nav {
+  background: $nav;
+  border-right: 1px solid $line;
+  padding: 12px 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    padding: 9px 10px;
+    color: #243140;
+
+    &.active { background: #e7f1fb; color: $blue-dark; font-weight: 650; }
+    &:hover { background: #eef2f6; }
+  }
+
+  .spacer { flex: 1; }
+}
+
+.company-mark {
+  padding: 12px 10px 4px;
+  color: $muted;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.nav-icon { width: 18px; height: 18px; flex: 0 0 auto; }
+
+main,
+.outlet { padding: 20px 22px 40px; }
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  color: white;
+  border: 1px solid #3a414b;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.portal-nav {
+  display: flex;
+  gap: 6px;
+  padding: 0 16px;
+  background: white;
+  border-bottom: 1px solid $line;
+  overflow: auto;
+
+  button {
+    background: transparent;
+    border: 0;
+    padding: 12px 10px;
+    color: $muted;
+    border-bottom: 2px solid transparent;
+
+    &.active { color: $blue; border-color: $blue; font-weight: 650; }
+  }
+}

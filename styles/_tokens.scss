@@ -1,0 +1,25 @@
+$ink: #1c2430;
+$muted: #5d6b7c;
+$line: #e3e8ee;
+$bg: #f3f5f7;
+$card: #fff;
+$top: #171b21;
+$nav: #f7f8fa;
+$blue: #0b6bcb;
+$blue-dark: #084f96;
+$sun: #e8a317;
+$green: #067647;
+$green-bg: #e7f6ee;
+$red: #b42318;
+$red-bg: #fdeceb;
+$amber: #b54708;
+$amber-bg: #fef4e6;
+$shadow: 0 12px 40px rgba(20, 32, 51, 0.12);
+$field-border: #d5dde6;
+$soft: #f4f7fb;
+$font: "Segoe UI", "Helvetica Neue", sans-serif;
+
+$badge-green: (active, paid, completed, approved, occupied, signed, reconciled, held, clear);
+$badge-blue: (vacant, open, new, future, sent, draft);
+$badge-amber: (notice, pending-approval, partial, scheduled, offered, estimate, configured);
+$badge-red: (urgent, overdue, denied, rejected, ended);
