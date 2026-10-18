@@ -108,50 +108,51 @@ function createApp() {
       if (typeof pathOrFn === "function") layers.push({ kind: "use", prefix: "", fn: pathOrFn });
       else layers.push({ kind: "use", prefix: pathOrFn, fn: maybeFn });
     },
-    listen(port, callback) {
-      const server = http.createServer((req, res) => {
-        decorate(res);
-        const url = new URL(req.url, "http://127.0.0.1");
-        req.path = decodeURIComponent(url.pathname);
-        req.query = Object.fromEntries(url.searchParams);
-        req.params = {};
-        req.body = {};
-        let index = 0;
-        const next = () => {
-          const layer = layers[index++];
-          if (!layer) {
-            res.status(404).json({ error: "Not found" });
-            return;
-          }
-          if (layer.kind === "use" && layer.prefix && req.path !== layer.prefix && !req.path.startsWith(`${layer.prefix}/`)) {
+    handle(req, res) {
+      decorate(res);
+      const url = new URL(req.url, "http://127.0.0.1");
+      req.path = decodeURIComponent(url.pathname);
+      req.query = Object.fromEntries(url.searchParams);
+      req.params = {};
+      if (!req.body) req.body = {};
+      let index = 0;
+      const next = () => {
+        const layer = layers[index++];
+        if (!layer) {
+          res.status(404).json({ error: "Not found" });
+          return;
+        }
+        if (layer.kind === "use" && layer.prefix && req.path !== layer.prefix && !req.path.startsWith(`${layer.prefix}/`)) {
+          next();
+          return;
+        }
+        if (layer.kind === "route") {
+          if (layer.method !== req.method) {
             next();
             return;
           }
-          if (layer.kind === "route") {
-            if (layer.method !== req.method) {
-              next();
-              return;
-            }
-            const match = layer.regex.exec(req.path);
-            if (!match) {
-              next();
-              return;
-            }
-            req.params = {};
-            layer.keys.forEach((key, keyIndex) => {
-              req.params[key] = decodeURIComponent(match[keyIndex + 1]);
-            });
+          const match = layer.regex.exec(req.path);
+          if (!match) {
+            next();
+            return;
           }
-          try {
-            layer.fn(req, res, next);
-          } catch (error) {
-            if (!res.headersSent && !res.writableEnded) {
-              res.status(error.status || 500).json({ error: error.message || "Something went wrong" });
-            }
+          req.params = {};
+          layer.keys.forEach((key, keyIndex) => {
+            req.params[key] = decodeURIComponent(match[keyIndex + 1]);
+          });
+        }
+        try {
+          layer.fn(req, res, next);
+        } catch (error) {
+          if (!res.headersSent && !res.writableEnded) {
+            res.status(error.status || 500).json({ error: error.message || "Something went wrong" });
           }
-        };
-        next();
-      });
+        }
+      };
+      next();
+    },
+    listen(port, callback) {
+      const server = http.createServer((req, res) => app.handle(req, res));
       server.listen(port, callback);
       return server;
     },

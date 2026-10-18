@@ -2419,15 +2419,20 @@ app.use(staticFiles(publicDir));
 app.use("/api", (_req, res) => res.status(404).json({ error: "Not found" }));
 app.get(/.*/, (_req, res) => res.sendFile(path.join(publicDir, "index.html")));
 
-const port = Number(process.env.PORT) || 3000;
-const server = app.listen(port, () => {
-  const company = db.one("SELECT name FROM company WHERE id = 1");
-  console.log(`${company.name}`);
-  console.log(`SunPilot is running at http://localhost:${port}`);
-});
+function start() {
+  const port = Number(process.env.PORT) || 3000;
+  const server = app.listen(port, () => {
+    const company = db.one("SELECT name FROM company WHERE id = 1");
+    console.log(`${company.name}`);
+    console.log(`SunPilot is running at http://localhost:${port}`);
+  });
+  server.on("error", (error) => {
+    if (error.code === "EADDRINUSE") console.error(`Port ${port} is already in use.`);
+    else console.error(error);
+    process.exit(1);
+  });
+}
 
-server.on("error", (error) => {
-  if (error.code === "EADDRINUSE") console.error(`Port ${port} is already in use.`);
-  else console.error(error);
-  process.exit(1);
-});
+if (require.main === module) start();
+
+module.exports = { app };

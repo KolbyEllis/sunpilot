@@ -3,7 +3,8 @@ const path = require("path");
 const crypto = require("crypto");
 const { DatabaseSync } = require("node:sqlite");
 
-const dataDir = path.join(__dirname, "data");
+const onLambda = Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+const dataDir = onLambda ? path.join("/tmp", "sunpilot-data") : path.join(__dirname, "data");
 const uploadDir = path.join(dataDir, "uploads");
 fs.mkdirSync(uploadDir, { recursive: true });
 
